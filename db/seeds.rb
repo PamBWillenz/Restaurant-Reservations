@@ -3,6 +3,7 @@
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
 # seed data for 20 reservations
+# Create tables
 tables = [
   { name: "Table 1", capacity: 2 },
   { name: "Table 2", capacity: 4 },
@@ -13,19 +14,29 @@ tables = [
   { name: "Table 7", capacity: 6 },
   { name: "Table 8", capacity: 8 },
   { name: "Table 9", capacity: 2 },
-  { name: "Table 10", capacity: 4 },
-  { name: "Table 11", capacity: 6 },
-  { name: "Table 12", capacity: 8 },
-  { name: "Table 13", capacity: 2 },
-  { name: "Table 14", capacity: 4 },
-  { name: "Table 15", capacity: 6 },
-  { name: "Table 16", capacity: 8 },
-  { name: "Table 17", capacity: 2 },
-  { name: "Table 18", capacity: 4 },
-  { name: "Table 19", capacity: 6 },
-  { name: "Table 20", capacity: 8 }
+  { name: "Table 10", capacity: 4 }
 ]
 
 tables.each do |table|
-  Table.create!(table)
+  Table.find_or_create_by!(name: table[:name]) do |t|
+    t.capacity = table[:capacity]
+  end
+end
+
+# Create reservations
+reservations = [
+  { name: "John Doe", phone: "1234567890", party_size: 2, start_time: Time.zone.now.beginning_of_hour + 1.hour, table: Table.find_by(name: "Table 1") },
+  { name: "Jane Smith", phone: "0987654321", party_size: 4, start_time: Time.zone.now.beginning_of_hour + 2.hours, table: Table.find_by(name: "Table 2") },
+  { name: "Alice Johnson", phone: "1112223333", party_size: 6, start_time: Time.zone.now.beginning_of_hour + 3.hours, table: Table.find_by(name: "Table 3") },
+  { name: "Bob Brown", phone: "4445556666", party_size: 8, start_time: Time.zone.now.beginning_of_hour + 4.hours, table: Table.find_by(name: "Table 4") },
+  { name: "Charlie Davis", phone: "7778889999", party_size: 2, start_time: Time.zone.now.beginning_of_hour + 5.hours, table: Table.find_by(name: "Table 5") },
+  { name: "Diana Evans", phone: "0001112222", party_size: 4, start_time: Time.zone.now.beginning_of_hour + 6.hours, table: Table.find_by(name: "Table 6") },
+  { name: "Eve Foster", phone: "3334445555", party_size: 6, start_time: Time.zone.now.beginning_of_hour + 7.hours, table: Table.find_by(name: "Table 7") },
+  { name: "Frank Green", phone: "6667778888", party_size: 8, start_time: Time.zone.now.beginning_of_hour + 8.hours, table: Table.find_by(name: "Table 8") },
+  { name: "Grace Harris", phone: "9990001111", party_size: 2, start_time: Time.zone.now.beginning_of_hour + 9.hours, table: Table.find_by(name: "Table 9") },
+  { name: "Henry Irving", phone: "2223334444", party_size: 4, start_time: Time.zone.now.beginning_of_hour + 10.hours, table: Table.find_by(name: "Table 10") }
+]
+
+reservations.each do |reservation|
+  Reservation.create!(reservation)
 end

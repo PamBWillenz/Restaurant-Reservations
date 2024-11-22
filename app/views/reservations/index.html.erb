@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-8">
+    <h2>Current Reservations</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Party Size</th>
+            <th>Table</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @reservations.each do |reservation| %>
+          <tr>
+            <td><%= reservation.start_time.strftime("%B %d, %Y at %I:%M %p") %></td>
+            <td><%= reservation.name %></td>
+            <td><%= reservation.phone %></td>
+            <td><%= reservation.party_size %></td>
+            <td><%= reservation.table.name %> (Seats <%= reservation.table.capacity %>)</td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h2>New Reservation</h2>
+    <%= simple_form_for @reservation, html: { class: 'mb-4' } do |f| %>
+    <% if @reservation.errors.any? %>
+    <div class="alert alert-danger">
+      <% @reservation.errors.full_messages.each do |message| %>
+      <div><%= message %></div>
+      <% end %>
+    </div>
+    <% end %>
+
+    <%= f.input :name %>
+    <%= f.input :phone %>
+    <%= f.input :party_size, collection: 1..8 %>
+    <%= f.input :start_time, as: :datetime, html5: true %>
+    <%= f.input :table_id, collection: Table.all.collect { |t| [t.name, t.id] }, prompt: 'Select Table' %>
+
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

@@ -22,7 +22,7 @@ class Reservation < ApplicationRecord
   end
 
   def table_must_be_available
-    if table && start_time && table.reservations.overlapping(start_time).where.not(id: id).exists?
+    if table && Reservation.overlapping(start_time).where(table: table).exists?
       errors.add(:table, "is not available at that time")
     end
   end
