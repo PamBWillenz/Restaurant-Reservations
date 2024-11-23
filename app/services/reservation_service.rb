@@ -6,13 +6,15 @@ class ReservationService
   end
 
   def create_reservation
-    reservation = Reservation.new(@params.merge(start_time: @start_time))
-    if reservation.valid?
-      reservation.save
+    reservation = Reservation.new(@params.merge(start_time: @start_time, table_id: @params[:table_id]))
+    if reservation.save
+      reservation
     else
-      reservation.errors.add(:base, "Table is not available at that time") if reservation.errors[:table].any?
+      if reservation.errors[:table].any?
+        reservation.errors.add(:base, "No tables available for this party size at the requested time")
+      end
+      reservation
     end
-    reservation
   end
 
   private
@@ -24,13 +26,5 @@ class ReservationService
   def parse_start_time
     return nil unless @params[:start_time].present?
     Time.zone.parse(@params[:start_time]) rescue nil
-  end
-
-  # need to find a table that is available at the start time and can accommodate the party size and is not overlapping with another reservation
-  def find_available_table
-    Table.all.each do |table|
-      return table if table.table_must_be_available(@start_time, @party_size)
-    end
-    nil
   end
 end

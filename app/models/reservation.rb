@@ -3,7 +3,7 @@ class Reservation < ApplicationRecord
 
   validates :name, presence: true
   validates :phone, presence: true
-  validates :party_size, presence: true, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 8 }
+  validates :party_size, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 2, less_than_or_equal_to: 8 }
   validates :start_time, presence: true
   validate :start_time_must_be_on_the_hour
   validate :table_must_be_available
@@ -17,7 +17,7 @@ class Reservation < ApplicationRecord
 
   def start_time_must_be_on_the_hour
     unless start_time.min == 0
-      errors.add(:start_time, "must be on the hour")
+      errors.add(:start_time, "must start on the hour")
     end
   end
 
@@ -29,7 +29,7 @@ class Reservation < ApplicationRecord
 
   def party_size_must_fit_table
     if table && party_size && table.capacity < party_size
-      errors.add(:party_size, "exceeds table capacity")
+      errors.add(:party_size, "exceeds the table's capacity")
     end
   end
 end
