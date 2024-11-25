@@ -3,9 +3,11 @@ class Reservation < ApplicationRecord
 
   # Validations to ensure presence and correctness of reservation attributes
   validates :name, presence: true
-  validates :phone, presence: true
+  validates :phone, presence: true, format: { with: /\A\d{3}-\d{3}-\d{4}\z/ } 
   validates :party_size, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 2, less_than_or_equal_to: 8 }
   validates :start_time, presence: true
+  
+  # Custom validations
   validate :start_time_must_be_on_the_hour
   validate :table_must_be_available
   validate :party_size_must_fit_table

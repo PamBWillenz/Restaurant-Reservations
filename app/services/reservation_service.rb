@@ -8,15 +8,13 @@ class ReservationService
   # Creates a new reservation with the provided parameters
   def create_reservation
     reservation = Reservation.new(@params.merge(start_time: @start_time, table_id: @params[:table_id]))
-    if reservation.save
-      reservation
-    else
+    unless reservation.save
       # Add a custom error message if the table is not available
       if reservation.errors[:table].any?
         reservation.errors.add(:base, "No tables available for this party size at the requested time")
-      end
-      reservation
+      end      
     end
+    reservation
   end
 
   private

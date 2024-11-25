@@ -30,7 +30,6 @@
   <div class="col-md-4">
     <h2>New Reservation</h2>
     <%= simple_form_for @reservation, html: { class: 'mb-4' } do |f| %>
-    <%=# simple_form_for @reservation, html: { class: 'mb-4', data: { turbo: false } } do |
     <% if @reservation.errors.any? %>
     <div class="alert alert-danger">
       <% @reservation.errors.full_messages.each do |message| %>
@@ -40,10 +39,10 @@
     <% end %>
 
     <%= f.input :name %>
-    <%= f.input :phone %>
+    <%= f.input :phone, placeholder: "Use format: 888-999-0000" %>
     <%= f.input :party_size, collection: 1..8 %>
     <%= f.input :start_time, as: :datetime, html5: true %>
-    <%= f.input :table_id, collection: Table.all.collect { |t| [t.name, t.id] }, prompt: 'Select Table' %>
+    <%= f.input :table_id, collection: Table.all.collect { |t| ["#{t.name} (Seats: #{t.capacity})", t.id] }, prompt: 'Select Table' %>
 
     <%= f.button :submit, class: 'btn btn-primary' %>
     <% end %>
