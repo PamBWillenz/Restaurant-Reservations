@@ -32,4 +32,4 @@ rails db:seed
 
 ## UI
 
-![Screenshot of Restaurant UI](assets/images/screenshot.png)
+![Screenshot of Restaurant UI](app/assets/images/screenshot.png)
