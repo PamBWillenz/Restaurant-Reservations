@@ -7,14 +7,14 @@ RSpec.describe "reservations/index", type: :view do
     assign(:reservations, [
       Reservation.create!(
         name: "Name1",
-        phone: "Phone1",
+        phone: "999-999-9999",
         party_size: 2,
         start_time: Time.current.beginning_of_hour + 1.hour,
         table: Table.create!(capacity: 4, name: "Table1")
       ),
       Reservation.create!(
         name: "Name2",
-        phone: "Phone2",
+        phone: "888-888-8888",
         party_size: 4,
         start_time: Time.current.beginning_of_hour + 2.hour,
         table: Table.create!(capacity: 5, name: "Table2")
@@ -26,9 +26,9 @@ RSpec.describe "reservations/index", type: :view do
   it "renders a list of reservations" do
     render
     assert_select "tr>td", text: "Name1".to_s, count: 1
-    assert_select "tr>td", text: "Phone1".to_s, count: 1
+    assert_select "tr>td", text: "999-999-9999".to_s, count: 1
     assert_select "tr>td", text: "Name2".to_s, count: 1
-    assert_select "tr>td", text: "Phone2".to_s, count: 1
+    assert_select "tr>td", text: "999-999-9999".to_s, count: 1
     assert_select "tr>td", text: 2.to_s, count: 1
     assert_select "tr>td", text: 4.to_s, count: 1
     # test for the reservation_time

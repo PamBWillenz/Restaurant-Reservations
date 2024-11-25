@@ -7,7 +7,7 @@ RSpec.describe ReservationService do
     it "creates a reservation when a table is available" do
       params = {
         name: "John Doe",
-        phone: "555-0123",
+        phone: "777-555-0123",
         party_size: "2",
         start_time: "2024-01-01 14:00:00",
         table_id: table.id
@@ -23,7 +23,7 @@ RSpec.describe ReservationService do
       
       params = {
         name: "Jane Smith",
-        phone: "555-0124",
+        phone: "777-555-0124",
         party_size: "2",
         start_time: "2024-01-01 14:00:00",
         table_id: table.id
