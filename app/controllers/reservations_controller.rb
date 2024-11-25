@@ -1,7 +1,6 @@
 class ReservationsController < ApplicationController
   def index
     @reservations = Reservation.includes(:table)
-                          .where('start_time >= ?', Time.current)
                           .order(start_time: :asc)
     @reservation = Reservation.new
   end
